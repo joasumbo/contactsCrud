@@ -26,21 +26,22 @@
 
   <div class="container mt-5">
     <h2 class="text-center">Editar Contato</h2>
-    <form>
+    <form action="{{ route('atualizar.contacto', $information->id) }}" method="POST">
+      @csrf
       <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="nome" value="João Silva">
+        <input type="text" class="form-control" id="nome" name="name" value="{{ $information->name }}">
       </div>
       <div class="mb-3">
         <label for="contato" class="form-label">Contato</label>
-        <input type="text" class="form-control" id="contato" value="912345678">
+        <input type="text" class="form-control" id="contato" name="phone" value="{{ $information->phone }}">
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" value="joao@email.com">
+        <input type="email" class="form-control" id="email" name="email" value="{{ $information->email }}">
       </div>
-      <button type="button" class="btn btn-warning" onclick="updateForm()">Atualizar</button>
-      <a href="index.html" class="btn btn-secondary">Voltar</a>
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a href="/" class="btn btn-secondary">Voltar</a>
     </form>
   </div>
 

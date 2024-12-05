@@ -25,17 +25,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
-Route::get('/', [ContactController::class, 'index']);
+Route::get('/', [ContactController::class, 'index'])
+    ->name('index.contacto');
 
-Route::get('/adicionar', [ContactController::class, 'create']);
+Route::get('/adicionar', [ContactController::class, 'create'])
+    ->name('adicionar.contacto');
 
-Route::get('/detalhes/{id}', [ContactController::class, 'show']);
+Route::get('/detalhes/{id}', [ContactController::class, 'show'])
+    ->name('detalhe.contacto');
 
-Route::post('/salvar', [ContactController::class, 'store']);
+Route::post('/salvar', [ContactController::class, 'store'])
+    ->name('salvar.contacto');
 
-Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware(['auth', 'verified']);
 
-Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware(['auth', 'verified']);
+Route::get('/editar/{id}', [ContactController::class, 'edit'])
+    ->name('editar.contacto');
+
+Route::post('/atualizar/{id}', [ContactController::class, 'update'])
+    ->name('atualizar.contacto');
+
+Route::get('/contacts/{id}', [ContactController::class, 'destroy'])
+    ->name('excluir.contacto');
