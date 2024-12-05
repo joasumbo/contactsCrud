@@ -7,9 +7,9 @@
   <title>Detalhes do Contato</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 </head>
 
@@ -32,6 +32,11 @@
         <p class="card-text">Email: <a href="#">{{ $information->email }}</a></p>
         @if (Auth::check())
         <a href="{{ route('editar.contacto', $information->id) }}" class="btn btn-warning">Editar</a>
+
+        <a class="btn btn-danger mx-2" href="{{ route('excluir.contacto', $information->id) }}">
+          <i class="fas fa-trash"></i> Eliminar
+        </a>
+
         @endif
         <a href="/" class="btn btn-secondary">Voltar</a>
       </div>
@@ -48,40 +53,41 @@
 <!-- Including alerts Toastr -->
 @if(session('success'))
 <script>
-    toastr.success("{{ session('success') }}", "Sucesso!", {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000"
-    });
+  toastr.success("{{ session('success') }}", "Sucesso!", {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000"
+  });
 </script>
 @endif
 
 @if(session('error'))
 <script>
-    toastr.error("{{ session('error') }}", "Erro!", {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000"
-    });
+  toastr.error("{{ session('error') }}", "Erro!", {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000"
+  });
 </script>
 @endif
 
 @if ($errors->any())
 @foreach ($errors->all() as $error)
 <script>
-    toastr.error("{{ $error }}", "Erro de Validação!", {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000"
-    });
+  toastr.error("{{ $error }}", "Erro de Validação!", {
+    "closeButton": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000"
+  });
 </script>
 @endforeach
 @endif
 <!-- Including alerts Toastr -->
+
 </html>

@@ -13,6 +13,7 @@ class Contacts extends Model
         'name',
         'email',
         'phone',
+        'status'
     ];
     
 }

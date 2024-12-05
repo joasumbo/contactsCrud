@@ -8,29 +8,27 @@ function navigate(url) {
 
 
 document.getElementById('searchInput').addEventListener('input', function() {
-  const query = this.value.toLowerCase(); // Pega o valor da pesquisa e converte para minúsculo
-  const rows = document.querySelectorAll('#tableBody .contact-row'); // Pega todas as linhas da tabela
-  let resultCount = 0; // Contador de resultados encontrados
+  const query = this.value.toLowerCase(); 
+  const rows = document.querySelectorAll('#tableBody .contact-row'); 
+  let resultCount = 0; 
 
   rows.forEach(row => {
-      const name = row.cells[1].textContent.toLowerCase(); // Nome
-      const phone = row.cells[2].textContent.toLowerCase(); // Contato
-      const email = row.cells[3].textContent.toLowerCase(); // E-mail
+      const name = row.cells[1].textContent.toLowerCase(); 
+      const phone = row.cells[2].textContent.toLowerCase(); 
+      const email = row.cells[3].textContent.toLowerCase(); 
 
-      // Verifica se algum dos campos contém o texto da pesquisa
       if (name.includes(query) || phone.includes(query) || email.includes(query)) {
-          row.style.display = ''; // Exibe a linha
-          resultCount++; // Incrementa o contador
+          row.style.display = ''; 
+          resultCount++; 
       } else {
-          row.style.display = 'none'; // Oculta a linha
+          row.style.display = 'none'; 
       }
   });
 
-  // Exibe ou oculta a mensagem "Sem resultados"
   const noResultsMessage = document.getElementById('noResultsMessage');
   if (resultCount === 0 && query !== '') {
-      noResultsMessage.style.display = 'block'; // Exibe a mensagem
+      noResultsMessage.style.display = 'block'; 
   } else {
-      noResultsMessage.style.display = 'none'; // Oculta a mensagem
+      noResultsMessage.style.display = 'none'; 
   }
 });

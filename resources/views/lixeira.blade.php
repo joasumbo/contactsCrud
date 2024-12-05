@@ -27,7 +27,7 @@
 
   <!-- Content -->
   <div class="container mt-5">
-    <h1 class="text-center">Lista de Contatos</h1>
+    <h1 class="text-center">Contatos eliminados</h1>
     <div class="mt-4">
       <div class="row justify-content-start">
         <div class="col-md-6">
@@ -71,18 +71,14 @@
           <td>{{ $data->phone }}</td>
           <td>{{ $data->email }}</td>
           <td>
-            <a href="{{ route('detalhe.contacto', $data->id) }}">
-              <button class="btn btn-sm btn-primary">
-                <i class="fas fa-eye"></i> Detalhes
-              </button></a>
             @if (Auth::check())
-            <a href="{{ route('editar.contacto', $data->id) }}">
+            <a href="{{ route('status.active', $data->id) }}">
               <button class="btn btn-sm btn-warning">
-                <i class="fas fa-edit"></i> Editar
+                <i class="fas fa-edit"></i> Restaurar
               </button>
             </a>
             <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}">
-              <i class="fas fa-trash"></i> Eliminar
+              <i class="fas fa-trash"></i> Eliminar permanentemente
             </button>
             @endif
 
@@ -98,7 +94,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                    <a href="{{ route('status.disable', $data->id) }}" class="btn btn-danger">Sim</a>
+                    <a href="{{ route('excluir.contacto', $data->id) }}" class="btn btn-danger">Sim</a>
                   </div>
                 </div>
               </div>
@@ -124,41 +120,6 @@
 
   </div>
 
-
-  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Você tem certeza que deseja excluir este item?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <a id="deleteConfirmBtn" href="" class="btn btn-danger">Sim, excluir</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="justify-content-end">
-      @if (Auth::check())
-      <a href="{{ route('adicionar.contacto') }}" class="btn btn-success">
-        <i class="fas fa-plus"></i> Adicionar Novo Contato
-      </a>
-
-      <a href="{{ route('export.pdf') }}" class="btn btn-danger">
-        <i class="fas fa-file-pdf"></i> Exportar PDF
-      </a>
-      <a href="{{ route('export.csv') }}" class="btn btn-secondary">
-        <i class="fas fa-file-csv"></i> Exportar CSV
-      </a>
-      @endif
-    </div>
-  </div>
 
   <div class="mt-4">
     <nav>
@@ -195,20 +156,6 @@
       "extendedTimeOut": "1000"
     });
   </script>
-  @endif
-
-  @if ($errors->any())
-  @foreach ($errors->all() as $error)
-  <script>
-    toastr.error("{{ $error }}", "Erro de Validação!", {
-      "closeButton": true,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000"
-    });
-  </script>
-  @endforeach
   @endif
 
 </body>

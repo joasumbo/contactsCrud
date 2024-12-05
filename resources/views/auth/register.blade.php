@@ -26,25 +26,21 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
                     <input type="name" class="form-control" name="name" id="name" required>
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail</label>
                     <input type="email" class="form-control" name="email" id="email" required>
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                 <div class="mb-3 position-relative">
                     <label for="password" class="form-label">Criar Senha</label>
                     <input type="password" class="form-control" name="password" id="password" required>
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     <i class="bi bi-eye-slash position-absolute" id="togglePassword" style="right: 10px; top: 38px; cursor: pointer;"></i>
                 </div>
 
                 <div class="mb-3 position-relative">
                     <label for="password_confirmation" class="form-label">Confirmar Senha</label>
                     <input type="password_confirmation" class="form-control" name="password_confirmation" id="password_confirmation" required>
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     <i class="bi bi-eye-slash position-absolute" id="togglePassword2" style="right: 10px; top: 38px; cursor: pointer;"></i>
                 </div>
 
@@ -57,14 +53,19 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+    @foreach ($errors->all() as $error)
+    <script>
+        toastr.error("{{ $error }}", "Erro de Autenticação!", {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000"
+        });
+    </script>
+    @endforeach
     @endif
 
 

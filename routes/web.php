@@ -31,6 +31,10 @@ require __DIR__ . '/auth.php';
 Route::get('/', [ContactController::class, 'index'])
     ->name('index.contacto');
 
+
+Route::get('/lixeira', [ContactController::class, 'trash'])
+    ->name('lixeira.contacto');
+
 Route::get('/adicionar', [ContactController::class, 'create'])
     ->middleware('auth')
     ->name('adicionar.contacto');
@@ -42,7 +46,6 @@ Route::post('/salvar', [ContactController::class, 'store'])
     ->middleware('auth')
     ->name('salvar.contacto');
 
-
 Route::get('/editar/{id}', [ContactController::class, 'edit'])
     ->name('editar.contacto');
 
@@ -53,3 +56,18 @@ Route::post('/atualizar/{id}', [ContactController::class, 'update'])
 Route::get('/contacts/{id}', [ContactController::class, 'destroy'])
     ->middleware('auth')
     ->name('excluir.contacto');
+
+Route::get('/export/pdf', [ContactController::class, 'exportPDF'])
+    ->name('export.pdf');
+
+Route::get('/export/csv', [ContactController::class, 'exportCSV'])
+    ->name('export.csv');
+
+
+Route::get('/status/{id}', [ContactController::class, 'desativar'])
+    ->middleware('auth')
+    ->name('status.disable');
+
+Route::get('/statu-active/{id}', [ContactController::class, 'ativar'])
+    ->middleware('auth')
+    ->name('status.active');

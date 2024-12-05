@@ -2,7 +2,9 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f4f4f9;
   }
-
+a{
+  text-decoration: none;
+}
   .card {
     border-radius: 15px;
 }

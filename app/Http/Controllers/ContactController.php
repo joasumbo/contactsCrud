@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contacts;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
@@ -13,8 +15,14 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $datas = Contacts::orderBy('created_at', 'desc')->paginate(2);
+        $datas = Contacts::orderBy('created_at', 'desc')->where('status', 'ativo')->paginate(10);
         return view('index', compact('datas'));
+    }
+
+    public function trash()
+    {
+        $datas = Contacts::orderBy('created_at', 'desc')->where('status', 'excluido')->paginate(10);
+        return view('lixeira', compact('datas'));
     }
 
     /**
@@ -107,7 +115,64 @@ class ContactController extends Controller
         $contact = Contacts::findOrFail($id);
         $contact->delete();
 
-        return redirect()->route('index.contacto')->with('success', 'Contato Excluído com sucesso com sucesso!');
+        return redirect()->route('index.contacto')->with('success', 'Contato Excluído permanentemente!');
     }
 
+    public function exportPDF()
+    {
+        $contacts = Contacts::all();
+        $pdf = Pdf::loadView('pdf.contacts', compact('contacts'));
+        return $pdf->download('contacts.pdf');
+    }
+
+    public function exportCSV()
+    {
+        $contacts = Contacts::all();
+
+        $filename = "contacts.csv";
+
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $handle = fopen('php://output', 'w');
+
+        fputcsv($handle, ['ID', 'Name', 'Phone', 'Email']); 
+
+        foreach ($contacts as $contact) {
+            fputcsv($handle, [$contact->id, $contact->name, $contact->phone, $contact->email]);
+        }
+
+        fclose($handle);
+
+        return Response::make('', 200, $headers);
+    }
+
+
+
+
+    public function ativar($id)
+    {
+        $contact = Contacts::findOrFail($id);
+
+        $contact->status = 'ativo';
+        $contact->save();
+
+        return redirect()->route('index.contacto')->with('success', 'Contato restaurado com sucesso!');
+    }
+
+
+    public function desativar($id)
+    {
+        $contact = Contacts::findOrFail($id);
+
+        $contact->status = 'excluido';
+        $contact->save();
+
+        return redirect()->route('index.contacto')->with('success', 'Contato movido para lixeira!');
+    }
 }
