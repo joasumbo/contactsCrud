@@ -31,18 +31,17 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-          'name' => 'required|string|min:5|max:255|regex:/^[a-zA-Z\s]+$/',
+            'name' => 'required|string|min:5|max:255|regex:/^[a-zA-ZÀ-ÿ\s]+$/',
             'email' => 'required|email|unique:contacts,email',
             'phone' => 'required|string|max:9|unique:contacts,phone',
         ]);
 
         if ($validator->fails()) {
-            // Verifica se há mais de 1 erro de validação
             $errorMessage = $validator->errors()->count() > 1 ? 'Dados incorretos' : $validator->errors()->first();
-        
+
             return redirect()->back()
-                ->withErrors($validator) // Exibe todos os erros
-                ->withInput(); // Retorna os dados inseridos
+                ->withErrors($validator)
+                ->withInput();
         }
 
         Contacts::create($request->all());
@@ -80,8 +79,10 @@ class ContactController extends Controller
             'phone' => 'required|string|max:9|unique:contacts,phone,' . $id,
         ]);
 
-        // Se a validação falhar, retorna com os erros
+
         if ($validator->fails()) {
+            $errorMessage = $validator->errors()->count() > 1 ? 'Dados incorretos' : $validator->errors()->first();
+
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();

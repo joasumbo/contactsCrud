@@ -55,10 +55,28 @@
                 <i class="fas fa-edit"></i> Editar
               </button>
             </a>
-            <a href="javascript:void(0)" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-href="{{ route('excluir.contacto', $data->id) }}">
+            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}">
               <i class="fas fa-trash"></i> Eliminar
-            </a>
+            </button>
 
+            <!-- Modal de confirmação -->
+            <div class="modal fade" id="deleteModal{{ $data->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $data->id }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel{{ $data->id }}">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Você tem certeza que deseja excluir este contato?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                    <a href="{{ route('excluir.contacto', $data->id) }}" class="btn btn-danger">Sim</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
         @endforeach
@@ -68,22 +86,6 @@
       <i class="fas fa-plus"></i> Adicionar Novo Contato
     </a>
   </div>
-
-  <script>
-    // Captura o evento de abrir o modal
-    const deleteButtons = document.querySelectorAll('a[data-bs-toggle="modal"][data-bs-target="#confirmDeleteModal"]');
-
-    deleteButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        // Pega o href do link de exclusão
-        const href = this.getAttribute('data-href');
-
-        // Define o link de exclusão no botão de confirmação
-        const confirmBtn = document.getElementById('deleteConfirmBtn');
-        confirmBtn.setAttribute('href', href);
-      });
-    });
-  </script>
 
 
   <!-- Modal de Confirmação -->
@@ -104,11 +106,11 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <script src="{{ asset('js/cmd.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
   @if(session('success'))
