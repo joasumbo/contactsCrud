@@ -28,6 +28,17 @@
   <!-- Content -->
   <div class="container mt-5">
     <h1 class="text-center">Lista de Contatos</h1>
+    <div class="mt-4">
+      <div class="row justify-content-start">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar..." aria-label="Pesquisar">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="table table-hover mt-4">
       <thead>
         <tr>
@@ -38,7 +49,21 @@
           <th>Ações</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="tableBody">
+
+        @if($datas->isEmpty())
+        <div class="mt-4 text-center" style="display: none;">
+          <div class="mt-4 mb-4">
+            <center>
+              <p>
+                <img src="{{ asset('img/sem-resultados.png') }}" class="img-nFound" width="130" alt="">
+              <p class="mt-4">Ups! Não encontramos nenhum contacto ainda...</p>
+              </p>
+            </center>
+          </div>
+        </div>
+        @else
+
         @foreach($datas as $data)
         <tr class="contact-row">
           <td>{{ $data->id }}</td>
@@ -50,6 +75,7 @@
               <button class="btn btn-sm btn-primary">
                 <i class="fas fa-eye"></i> Detalhes
               </button></a>
+            @if (Auth::check())
             <a href="{{ route('editar.contacto', $data->id) }}">
               <button class="btn btn-sm btn-warning">
                 <i class="fas fa-edit"></i> Editar
@@ -58,8 +84,8 @@
             <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}">
               <i class="fas fa-trash"></i> Eliminar
             </button>
+            @endif
 
-            <!-- Modal de confirmação -->
             <div class="modal fade" id="deleteModal{{ $data->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $data->id }}" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -80,15 +106,31 @@
           </td>
         </tr>
         @endforeach
+
+        @endif
       </tbody>
     </table>
+
+    <div id="noResultsMessage" class="mt-4 text-center" style="display: none;">
+      <div class="mt-4 mb-4">
+        <center>
+          <p>
+            <img src="{{ asset('img/sem-resultados.png') }}" class="img-nFound" width="130" alt="">
+          <p class="mt-4">Ups! Não encontramos nenhum resultado...</p>
+          </p>
+        </center>
+      </div>
+    </div>
+
+    @if (Auth::check())
     <a href="{{ route('adicionar.contacto') }}" class="btn btn-success">
       <i class="fas fa-plus"></i> Adicionar Novo Contato
     </a>
+    @endif
+
   </div>
 
 
-  <!-- Modal de Confirmação -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -107,6 +149,13 @@
     </div>
   </div>
 
+  <div class="mt-4">
+    <nav>
+      <ul class="pagination justify-content-center">
+        {{ $datas->links('pagination::bootstrap-4') }}
+      </ul>
+    </nav>
+  </div>
 
   <script src="{{ asset('js/cmd.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -136,6 +185,7 @@
     });
   </script>
   @endif
+
   @if ($errors->any())
   @foreach ($errors->all() as $error)
   <script>

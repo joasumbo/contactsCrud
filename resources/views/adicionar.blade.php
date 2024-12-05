@@ -37,7 +37,7 @@
       </div>
       <div class="mb-3">
         <label for="contato" class="form-label">Contato</label>
-        <input type="text" class="form-control" id="contato" name="phone" placeholder="Digite o contato">
+        <input type="text" class="form-control" minlength="9" id="contato" name="phone" placeholder="Digite o contato">
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>

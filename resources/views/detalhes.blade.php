@@ -30,7 +30,9 @@
         <h5 class="card-title">Nome: {{ $information->name }}</h5>
         <p class="card-text">Contato: {{ $information->phone }}</p>
         <p class="card-text">Email: <a href="#">{{ $information->email }}</a></p>
+        @if (Auth::check())
         <a href="{{ route('editar.contacto', $information->id) }}" class="btn btn-warning">Editar</a>
+        @endif
         <a href="/" class="btn btn-secondary">Voltar</a>
       </div>
     </div>

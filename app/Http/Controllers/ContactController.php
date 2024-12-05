@@ -13,7 +13,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $datas = Contacts::orderBy('created_at', 'desc')->get();
+        $datas = Contacts::orderBy('created_at', 'desc')->paginate(2);
         return view('index', compact('datas'));
     }
 
@@ -74,7 +74,7 @@ class ContactController extends Controller
     {
         // Validação dos dados recebidos
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:5|max:255',
+            'name' => 'required|string|min:5|max:255|regex:/^[a-zA-ZÀ-ÿ\s]+$/',
             'email' => 'required|email|unique:contacts,email,' . $id,
             'phone' => 'required|string|max:9|unique:contacts,phone,' . $id,
         ]);
@@ -109,4 +109,5 @@ class ContactController extends Controller
 
         return redirect()->route('index.contacto')->with('success', 'Contato Excluído com sucesso com sucesso!');
     }
+
 }

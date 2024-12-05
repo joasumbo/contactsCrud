@@ -3,6 +3,19 @@ body {
     background-color: #f4f4f9;
   }
 
+  .card {
+    border-radius: 15px;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+#togglePassword {
+    font-size: 18px;
+    color: #007bff;
+}
+
   .navbar {
     background-color: #007bff;
   }
@@ -36,4 +49,8 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+  }
+
+  .img-nFound{
+    opacity: 40%;
   }

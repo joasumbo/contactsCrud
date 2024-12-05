@@ -1,52 +1,90 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="pt-PT">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar usuário</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="{{ asset('style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <!-- Card de Login -->
+        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+            <div class="text-center mb-4">
+                <i class="bi bi-person-circle" style="font-size: 50px; color: #007bff;"></i>
+            </div>
+            <h4 class="card-title text-center mb-4">Criar usuário</h4>
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome</label>
+                    <input type="name" class="form-control" name="name" id="name" required>
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" name="email" id="email" required>
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+                <div class="mb-3 position-relative">
+                    <label for="password" class="form-label">Criar Senha</label>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    <i class="bi bi-eye-slash position-absolute" id="togglePassword" style="right: 10px; top: 38px; cursor: pointer;"></i>
+                </div>
+
+                <div class="mb-3 position-relative">
+                    <label for="password_confirmation" class="form-label">Confirmar Senha</label>
+                    <input type="password_confirmation" class="form-control" name="password_confirmation" id="password_confirmation" required>
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                    <i class="bi bi-eye-slash position-absolute" id="togglePassword2" style="right: 10px; top: 38px; cursor: pointer;"></i>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Criar</button>
+            </form>
         </div>
+    </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function(e) {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        document.getElementById('togglePassword2').addEventListener('click', function(e) {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    </script>
+</body>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>

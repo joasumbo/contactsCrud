@@ -36,6 +36,12 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        if (User::exists()) {
+            return redirect()->back()->withErrors([
+                'email' => 'Já existe um usuário registrado no sistema. Não é possível criar outro.',
+            ]);
+        }
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

@@ -32,12 +32,14 @@ Route::get('/', [ContactController::class, 'index'])
     ->name('index.contacto');
 
 Route::get('/adicionar', [ContactController::class, 'create'])
+    ->middleware('auth')
     ->name('adicionar.contacto');
 
 Route::get('/detalhes/{id}', [ContactController::class, 'show'])
     ->name('detalhe.contacto');
 
 Route::post('/salvar', [ContactController::class, 'store'])
+    ->middleware('auth')
     ->name('salvar.contacto');
 
 
@@ -45,7 +47,9 @@ Route::get('/editar/{id}', [ContactController::class, 'edit'])
     ->name('editar.contacto');
 
 Route::post('/atualizar/{id}', [ContactController::class, 'update'])
+    ->middleware('auth')
     ->name('atualizar.contacto');
 
 Route::get('/contacts/{id}', [ContactController::class, 'destroy'])
+    ->middleware('auth')
     ->name('excluir.contacto');
